@@ -61,7 +61,27 @@
     font-weight:700;
     font-size:18px;
     letter-spacing:0.06em;
+    transition:color .15s ease;
+    cursor:pointer;
   }
+  .logo:hover{
+    color:#aaaaaa;
+  }
+  html, body{ cursor:none; }
+  #cursorDot{
+    position:fixed;
+    top:0;
+    left:0;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#000000;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    z-index:9999;
+    opacity:0;
+  }
+  #cursorDot.active{ opacity:1; }
   .filtergroup{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:6px;}
   .filterchips{display:flex; flex-wrap:wrap; gap:6px;}
   .viewtoggle{
@@ -297,13 +317,13 @@
 
   #sections{background:#ffffff;}
   /* Year sections */
-  .yearsection{padding-block:6px 0; background:#ffffff;}
+  .yearsection{padding-block:0; background:#ffffff;}
   .yearhead{
     display:flex;
     align-items:baseline;
     justify-content:space-between;
     gap:12px;
-    padding-block:4px;
+    padding-block:3px;
     border-bottom:2px solid var(--line);
     margin-bottom:4px;
     position:sticky;
@@ -384,6 +404,37 @@
     line-height:1.5;
     color:var(--ink);
     max-width:60ch;
+  }
+
+  .about-page{ padding:14px 0 8px; border-bottom:2px solid var(--line); }
+  .about-inner{ width:100%; }
+  .about-cols{ display:flex; flex-direction:column; gap:24px; }
+  .about-col{ min-width:0; }
+  @media (min-width:900px){
+    .about-inner{ max-width:calc(64vh * 4 / 3); margin-left:auto; margin-right:8px; }
+  }
+  .about-page .about-back{
+    display:inline-block;
+    margin-bottom:32px;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-decoration:none;
+    border-bottom:1px solid var(--muted);
+  }
+  .about-page .about-label{
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:16px;
+  }
+  .about-page .desc-kr{ margin:0 0 4px; max-width:none; }
+  .about-page .desc-en{ margin:0 0 8px; max-width:none; color:var(--muted); }
+  .about-page .about-lead{ font-weight:700; }
+  @media (min-width:900px){
+    .about-page{ padding-left:0; padding-right:0; }
   }
 
   /* Desktop: title/tag/meta column and description column sit side by side, each
@@ -485,16 +536,85 @@
 <div class="wrap">
   <header class="top">
     <div class="toprow">
-      <div class="logo">IHANA</div>
+      <div class="logo" id="aboutToggle" role="button" tabindex="0" aria-pressed="false">IHANA</div>
       <div class="tools">
         <span class="savestate" id="saveState"></span>
         <button type="button" class="chip" id="editToggle" aria-pressed="false">Edit</button>
       </div>
     </div>
-    <div class="filtergroup">
+    <div class="filtergroup" id="filterGroupWrap">
       <div class="filterchips" id="catGroup"></div>
     </div>
   </header>
+
+  <main id="aboutPage" hidden class="about-page">
+    <div class="about-inner">
+      <a href="#" id="aboutBack" class="about-back">&larr; Back to Work</a>
+
+      <div class="about-cols">
+        <div class="about-col">
+          <p class="desc-kr" data-field="krP1" style="margin-top:8px;">이하나는 브랜드의 온도와 분위기를 정의하고, 모든 접점을 디렉팅하는 크리에이티브 디렉터입니다. FMCG 분야 패키지 디자인으로 커리어의 기초를 다지고, 뷰티 메가 브랜드 아모레퍼시픽에서 리브랜딩과 주력 라인업을 이끌었으며, 현재는 희녹의 BI, BX, 비주얼 전반을 총괄하고 있습니다. 대기업의 체계,프로세스와 소규모 브랜드의 유연한 빌딩 방식을 모두 겪으며, 규모와 무관하게 통하는 디자인 기준을 세워왔습니다. 브랜드 아이덴티티에서 출발한 관점은 제품과 용기·패키지 개발, 스토어 · 플래그십 같은 공간 경험, 이커머스 채널의 비주얼까지 하나의 결로 이어집니다. 전략과 실행 사이에 간극을 두지 않고, 브랜드와 제품 컨셉 정의부터 금형과 인쇄, 온·오프라인 접점, 공간 시공현장의 디테일까지 직접 챙기며 기획한 의도가 그대로 결과물로 이어지게 합니다.</p>
+          <p class="desc-kr" data-field="krP2">오랜 경험은 결국 하나로 모입니다. 브랜드가 어떤 규모에, 어떤 단계에 있든 지금 필요한 것을 판단하고 끝까지 만들어냅니다.</p>
+        </div>
+        <div class="about-col">
+          <p class="desc-en" data-field="enP1" style="margin-top:8px;">Hana Lee is a creative director who defines a brand's tone and mood, directing every touchpoint it touches. She built her foundation in FMCG package design, went on to lead rebranding and flagship lines at Amorepacific, and now oversees hinok's BI, BX, and visual direction as a whole. Having worked within both the structured processes of a large corporation and the flexible brand-building of a small company, she has developed design standards that hold up regardless of scale. A perspective rooted in brand identity carries through product and container/package development, spatial experiences from stores to flagships, and visuals across online channels — all woven into a single thread. She leaves no gap between strategy and execution, staying hands-on from brand and product concept through molds and printing, online and offline touchpoints, and the construction site itself, so the original intent survives intact into the finished result.</p>
+          <p class="desc-en" data-field="enP2">All of this experience converges into one thing: whatever a brand's size or stage, she reads what's needed now and sees it through to the end.</p>
+          <a href="mailto:twenty21one@naver.com" style="display:block; margin-top:24px; margin-bottom:15px; font-size:12.67px; font-family:'Pretendard','Helvetica Neue',Helvetica,Arial,sans-serif; color:#000000; text-decoration:underline;">twenty21one@naver.com</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="cursorDot"></div>
+
+  <script>
+  (function(){
+    var btn = document.getElementById('aboutToggle');
+    var page = document.getElementById('aboutPage');
+    var back = document.getElementById('aboutBack');
+    var sections = document.getElementById('sections');
+    var filterWrap = document.getElementById('filterGroupWrap');
+    var footer = document.querySelector('footer');
+    if(!btn || !page) return;
+    function showAbout(){
+      page.hidden = false;
+      if(sections) sections.hidden = true;
+      if(filterWrap) filterWrap.hidden = true;
+      if(footer) footer.hidden = true;
+      btn.setAttribute('aria-pressed','true');
+      window.scrollTo(0,0);
+      if(location.hash !== '#about') history.pushState(null,'','#about');
+    }
+    function hideAbout(){
+      page.hidden = true;
+      if(sections) sections.hidden = false;
+      if(filterWrap) filterWrap.hidden = false;
+      if(footer) footer.hidden = false;
+      btn.setAttribute('aria-pressed','false');
+      if(location.hash === '#about') history.pushState(null,'', location.pathname + location.search);
+    }
+    btn.addEventListener('click', function(e){ e.preventDefault(); showAbout(); });
+    btn.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); showAbout(); } });
+    back.addEventListener('click', function(e){ e.preventDefault(); hideAbout(); });
+    window.addEventListener('popstate', function(){
+      if(location.hash === '#about') showAbout(); else hideAbout();
+    });
+    if(location.hash === '#about') showAbout();
+
+    var dot = document.getElementById('cursorDot');
+    if(dot){
+      var overLogo = false;
+      document.addEventListener('mousemove', function(e){
+        dot.style.left = e.clientX + 'px';
+        dot.style.top = e.clientY + 'px';
+        if(!overLogo) dot.classList.add('active');
+      });
+      document.addEventListener('mouseleave', function(){ dot.classList.remove('active'); });
+      btn.addEventListener('mouseenter', function(){ overLogo = true; dot.classList.remove('active'); });
+      btn.addEventListener('mouseleave', function(){ overLogo = false; });
+    }
+  })();
+  </script>
 
   <main id="sections"></main>
 
@@ -538,6 +658,45 @@
   var canWrite = true;
   var writeChain = Promise.resolve();
 
+  /* ---- about-page editable text ---------------------------------- */
+  var ABOUT_DEFAULTS = {};
+  var ABOUT_OVERRIDES = {};
+  document.querySelectorAll('#aboutPage [data-field]').forEach(function(el){
+    ABOUT_DEFAULTS[el.dataset.field] = el.textContent;
+  });
+  function aboutVal(f){
+    var o = ABOUT_OVERRIDES[f];
+    return (o !== undefined && String(o).length) ? o : ABOUT_DEFAULTS[f];
+  }
+  function renderAbout(){
+    document.querySelectorAll('#aboutPage [data-field]').forEach(function(el){
+      if(document.activeElement === el) return;
+      el.textContent = aboutVal(el.dataset.field);
+    });
+  }
+  function setAboutOverride(f, text){
+    if(String(text) === String(ABOUT_DEFAULTS[f])) delete ABOUT_OVERRIDES[f];
+    else ABOUT_OVERRIDES[f] = text;
+    save();
+  }
+  function setupAboutEditing(){
+    document.querySelectorAll('#aboutPage [data-field]').forEach(function(el){
+      el.addEventListener('blur', function(){
+        var t = el.textContent.replace(/\s+/g," ").trim();
+        if(!t){ el.textContent = aboutVal(el.dataset.field); return; }
+        if(t !== aboutVal(el.dataset.field)) setAboutOverride(el.dataset.field, t);
+      });
+      el.addEventListener('keydown', function(ev){
+        if(ev.key === 'Escape'){ el.textContent = aboutVal(el.dataset.field); el.blur(); }
+      });
+      el.addEventListener('paste', function(ev){
+        ev.preventDefault();
+        var txt = (ev.clipboardData || window.clipboardData).getData('text');
+        document.execCommand('insertText', false, txt);
+      });
+    });
+  }
+
   function slug(d){
     return (d.b + "-" + d.t).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
   }
@@ -565,7 +724,7 @@
   function save(){
     if(!dbDoc || !canWrite) return;
     setStatus("saving…");
-    var body = { copy: OVERRIDES };
+    var body = { copy: OVERRIDES, about: ABOUT_OVERRIDES };
     writeChain = writeChain.then(function(){
       return dbDoc.set(body);
     }).then(function(){
@@ -742,12 +901,23 @@
       dbDoc.onSnapshot(function(snap){
         var data = snap.exists ? snap.data() : null;
         var raw = (data && data.copy && typeof data.copy === "object") ? data.copy : {};
+        var rawAbout = (data && data.about && typeof data.about === "object") ? data.about : {};
         var cStr = JSON.stringify(raw);
-        if(cStr === JSON.stringify(OVERRIDES)) return;
-        // snapshot data is frozen — clone it so later edits can mutate it
-        OVERRIDES = cStr ? JSON.parse(cStr) : {};
-        if(!isTyping()) render();
+        var aStr = JSON.stringify(rawAbout);
+        var changed = false;
+        if(cStr !== JSON.stringify(OVERRIDES)){
+          // snapshot data is frozen — clone it so later edits can mutate it
+          OVERRIDES = cStr ? JSON.parse(cStr) : {};
+          changed = true;
+        }
+        if(aStr !== JSON.stringify(ABOUT_OVERRIDES)){
+          ABOUT_OVERRIDES = aStr ? JSON.parse(aStr) : {};
+          if(!isTyping()) renderAbout();
+        }
+        if(changed && !isTyping()) render();
       }, function(){ setStatus(""); });
+
+      setupAboutEditing();
 
       var btn = document.getElementById("editToggle");
       btn.classList.add("on");
@@ -758,6 +928,10 @@
         document.body.classList.toggle("editing", state.edit);
         setStatus(state.edit ? "텍스트 클릭해서 수정 · 사진/영상 추가 가능" : "");
         if(!state.edit && state.cat === "hidden") state.cat = "all";
+        document.querySelectorAll('#aboutPage [data-field]').forEach(function(el){
+          if(state.edit) el.setAttribute('contenteditable','true');
+          else el.removeAttribute('contenteditable');
+        });
         buildFilters();
         render();
       });
@@ -1171,6 +1345,19 @@
   setupViewToggle();
   render();
   initEditing();
+
+  (function(){
+    function addIcon(rel,sizes,href){
+      var l = document.createElement('link');
+      l.rel = rel;
+      if(sizes) l.sizes = sizes;
+      l.href = href;
+      document.head.appendChild(l);
+    }
+    addIcon('icon','32x32','assets/favicon/favicon-32.png');
+    addIcon('icon','512x512','assets/favicon/favicon-512.png');
+    addIcon('apple-touch-icon','180x180','assets/favicon/favicon-180.png');
+  })();
 })();
 </script>
 
