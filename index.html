@@ -479,6 +479,7 @@
     header.top .filtergroup{ flex:1 1 auto; justify-content:flex-end; padding-right:8px; }
     .yearhead{ padding-inline:14px; }
     .card{
+      --ph: min(64vh, 41vw);
       flex-direction:row;
       align-items:stretch;
       gap:20px;
@@ -488,7 +489,7 @@
     }
     .tile{
       width:auto;
-      height:64vh;
+      height:var(--ph);
       aspect-ratio:4/3;
       flex:0 0 auto;
     }
@@ -496,7 +497,7 @@
     .photos .photoslide,
     .photos .photo-main{
       width:auto;
-      height:64vh;
+      height:var(--ph);
       aspect-ratio:4/3;
     }
     .cardbody{
